@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: type-8-t
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: type-8-t
+  template:
+    metadata:
+      labels:
+        app: type-8-t
+    spec:
+      containers:
+        - name: type-8-t
+          image: docker.io/timattt/type-8-t:latest
+          imagePullPolicy: Always
+          env:
+            - name: TYPE6_ACTIVE_PROFILE
+              value: "release"
+            - name: TYPE6_DATABASE_USER
+              value: default-user
+            - name: TYPE6_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: type-6-basic-secrets
+                  key: type_6_database_jdbc_url
+            - name: TYPE6_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: type-6-basic-secrets
+                  key: type_6_database_password
+            - name: TYPE6_HOST
+              value: https://auth-mipt-match.ru
+            - name: TYPE8_CLIENT_CORS_ALLOWED_ORIGIN
+              value: https://mipt-study.ru
